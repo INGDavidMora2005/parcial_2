@@ -29,6 +29,10 @@ class _EstablecimientosListViewState extends State<EstablecimientosListView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => context.go('/'),
+        ),
         title: const Text('Establecimientos'),
       ),
       body: FutureBuilder<List<EstablecimientoModel>>(
@@ -91,6 +95,7 @@ class _EstablecimientosListViewState extends State<EstablecimientosListView> {
       itemBuilder: (context, index) {
         final establecimiento = establecimientos[index];
         return Card(
+          margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           child: ListTile(
             leading: CircleAvatar(
               backgroundImage: establecimiento.logo != null
@@ -100,8 +105,17 @@ class _EstablecimientosListViewState extends State<EstablecimientosListView> {
                   ? const Icon(Icons.business)
                   : null,
             ),
-            title: Text(establecimiento.nombre ?? ''),
-            subtitle: Text(establecimiento.nit ?? ''),
+            title: Text(establecimiento.nombre ?? '',
+                style: const TextStyle(fontWeight: FontWeight.bold)),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('NIT: ${establecimiento.nit ?? ''}'),
+                Text('Dir: ${establecimiento.direccion ?? ''}'),
+                Text('Tel: ${establecimiento.telefono ?? ''}'),
+              ],
+            ),
+            isThreeLine: true,
             onTap: () => context.go('/establecimientos/${establecimiento.id}'),
           ),
         );
