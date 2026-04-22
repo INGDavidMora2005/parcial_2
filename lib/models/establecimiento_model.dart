@@ -1,3 +1,5 @@
+import 'package:parcial_2/core/constants/api_constants.dart';
+
 class EstablecimientoModel {
   final int? id;
   final String? nombre;
@@ -16,13 +18,24 @@ class EstablecimientoModel {
   });
 
   factory EstablecimientoModel.fromJson(Map<String, dynamic> json) {
+    final logoValue = json['logo'];
+    String? logo;
+    if (logoValue != null) {
+      if (logoValue.startsWith('http')) {
+        logo = logoValue;
+      } else {
+        final base = ApiConstants.parqueaderoBaseUrl.replaceFirst('/api', '');
+        final path = logoValue.startsWith('/') ? logoValue : '/$logoValue';
+        logo = '$base$path';
+      }
+    }
     return EstablecimientoModel(
       id: json['id'],
       nombre: json['nombre'],
       nit: json['nit'],
       direccion: json['direccion'],
       telefono: json['telefono'],
-      logo: json['logo'],
+      logo: logo,
     );
   }
 
