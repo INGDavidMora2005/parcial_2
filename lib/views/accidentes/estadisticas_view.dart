@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:isolate';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:parcial_2/services/accidentes_service.dart';
 import 'package:parcial_2/isolates/accidentes_isolate.dart';
@@ -37,6 +38,10 @@ class _EstadisticasViewState extends State<EstadisticasView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => context.go('/'),
+        ),
         title: const Text('Estadísticas de Accidentes'),
       ),
       body: FutureBuilder<Map<String, dynamic>?>(
@@ -196,20 +201,38 @@ class _EstadisticasViewState extends State<EstadisticasView> {
                     bottomTitles: AxisTitles(
                       sideTitles: SideTitles(
                         showTitles: true,
+                        reservedSize: 60,
                         getTitlesWidget: (value, meta) {
                           final index = value.toInt();
                           if (index >= 0 && index < data.keys.length) {
-                            return Text(
-                              data.keys.elementAt(index),
-                              style: const TextStyle(fontSize: 10),
+                            final label = data.keys.elementAt(index);
+                            final truncated = label.length > 8
+                                ? '${label.substring(0, 8)}...'
+                                : label;
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 4),
+                              child: RotatedBox(
+                                quarterTurns: 1,
+                                child: Text(
+                                  truncated,
+                                  style: const TextStyle(fontSize: 9),
+                                ),
+                              ),
                             );
                           }
                           return const Text('');
                         },
                       ),
                     ),
-                    leftTitles: const AxisTitles(
-                      sideTitles: SideTitles(showTitles: true),
+                    leftTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        reservedSize: 40,
+                        getTitlesWidget: (value, meta) => Text(
+                          value.toInt().toString(),
+                          style: const TextStyle(fontSize: 10),
+                        ),
+                      ),
                     ),
                     topTitles: const AxisTitles(
                       sideTitles: SideTitles(showTitles: false),
@@ -219,7 +242,7 @@ class _EstadisticasViewState extends State<EstadisticasView> {
                     ),
                   ),
                   borderData: FlBorderData(show: true),
-                  gridData: const FlGridData(show: true),
+                  gridData: const FlGridData(show: false),
                 ),
               ),
             ),
