@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:parcial_2/services/establecimientos_service.dart';
 import 'package:parcial_2/models/establecimiento_model.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class EstablecimientoDetailView extends StatefulWidget {
   final int id;
@@ -66,6 +67,10 @@ class _EstablecimientoDetailViewState extends State<EstablecimientoDetailView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => context.go('/establecimientos'),
+        ),
         title: const Text('Detalle Establecimiento'),
         actions: [
           IconButton(
@@ -82,7 +87,26 @@ class _EstablecimientoDetailViewState extends State<EstablecimientoDetailView> {
         ],
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? Skeletonizer(
+              enabled: true,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Center(child: CircleAvatar(radius: 64)),
+                    const SizedBox(height: 24),
+                    const Text('Nombre del establecimiento largo'),
+                    const SizedBox(height: 8),
+                    const Text('NIT: 000000000'),
+                    const SizedBox(height: 8),
+                    const Text('Dirección: Calle ejemplo 123'),
+                    const SizedBox(height: 8),
+                    const Text('Teléfono: 3001234567'),
+                  ],
+                ),
+              ),
+            )
           : _error != null
               ? Center(child: Text('Error: $_error'))
               : _establecimiento == null
