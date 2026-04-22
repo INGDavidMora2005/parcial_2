@@ -25,18 +25,18 @@ class AppRouter {
         builder: (context, state) => const EstablecimientosListView(),
       ),
       GoRoute(
-        name: 'establecimiento-detail',
-        path: '/establecimientos/:id',
-        builder: (context, state) => EstablecimientoDetailView(
-          id: int.parse(state.pathParameters['id']!),
-        ),
-      ),
-      GoRoute(
-        name: 'establecimiento-create',
+        name: 'establecimiento-create', // ← PRIMERO el estático
         path: '/establecimientos/create',
         builder: (context, state) => const EstablecimientoFormView(
           id: null,
           establecimiento: null,
+        ),
+      ),
+      GoRoute(
+        name: 'establecimiento-detail', // ← DESPUÉS el dinámico
+        path: '/establecimientos/:id',
+        builder: (context, state) => EstablecimientoDetailView(
+          id: int.parse(state.pathParameters['id']!),
         ),
       ),
       GoRoute(
