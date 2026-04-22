@@ -20,7 +20,8 @@ class EstablecimientosService {
     try {
       final response = await _dio
           .get('${ApiConstants.parqueaderoBaseUrl}/establecimientos/$id');
-      return EstablecimientoModel.fromJson(response.data);
+      final data = response.data['data'] ?? response.data; // ← FIX
+      return EstablecimientoModel.fromJson(data);
     } on DioException catch (e) {
       throw Exception('Error fetching establecimiento: ${e.message}');
     }
@@ -45,7 +46,8 @@ class EstablecimientosService {
         '${ApiConstants.parqueaderoBaseUrl}/establecimientos',
         data: formData,
       );
-      return EstablecimientoModel.fromJson(response.data);
+      final data = response.data['data'] ?? response.data;
+      return EstablecimientoModel.fromJson(data);
     } on DioException catch (e) {
       throw Exception('Error creating establecimiento: ${e.message}');
     }
@@ -77,7 +79,8 @@ class EstablecimientosService {
         '${ApiConstants.parqueaderoBaseUrl}/establecimiento-update/$id',
         data: formData,
       );
-      return EstablecimientoModel.fromJson(response.data);
+      final data = response.data['data'] ?? response.data;
+      return EstablecimientoModel.fromJson(data);
     } on DioException catch (e) {
       throw Exception('Error updating establecimiento: ${e.message}');
     }
