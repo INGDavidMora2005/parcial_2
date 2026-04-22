@@ -25,16 +25,18 @@ class _DashboardViewState extends State<DashboardView> {
   Future<void> _loadData() async {
     setState(() => isLoading = true);
     try {
-      final accidentes = await AccidentesService().fetchAll();
-      final establecimientos = await EstablecimientosService().getAll();
+      final results = await Future.wait([
+        AccidentesService().fetchCount(),
+        EstablecimientosService().getAll().then((l) => l.length),
+      ]);
       setState(() {
-        accidentesTotal = accidentes.length;
-        establecimientosTotal = establecimientos.length;
+        accidentesTotal = results[0];
+        establecimientosTotal = results[1];
         isLoading = false;
       });
     } catch (e) {
       setState(() {
-        accidentesTotal = -1; // Indicate error
+        accidentesTotal = -1;
         establecimientosTotal = -1;
         isLoading = false;
       });
