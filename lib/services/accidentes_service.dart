@@ -17,4 +17,20 @@ class AccidentesService {
       throw Exception('Error fetching accidentes: ${e.message}');
     }
   }
+
+  Future<int> fetchCount() async {
+    try {
+      final response = await _dio.get(
+        ApiConstants.accidentesBaseUrl,
+        queryParameters: {'\$select': 'count(*)', '\$limit': '1'},
+      );
+      final List data = response.data;
+      if (data.isNotEmpty) {
+        return int.tryParse(data[0]['count'].toString()) ?? 0;
+      }
+      return 0;
+    } on DioException catch (e) {
+      throw Exception('Error fetching count: ${e.message}');
+    }
+  }
 }
