@@ -10,12 +10,20 @@ class SkeletonCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Skeletonizer(
-      child: Container(
-        height: height,
-        width: width,
-        decoration: BoxDecoration(
-          color: Colors.grey[300],
-          borderRadius: BorderRadius.circular(8),
+      enabled: true,
+      child: Card(
+        margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        child: ListTile(
+          leading: const CircleAvatar(child: Icon(Icons.business)),
+          title: const Text('Nombre del establecimiento'),
+          subtitle: const Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('NIT: 0000000000'),
+              Text('Dirección: Calle ejemplo 123'),
+            ],
+          ),
+          isThreeLine: true,
         ),
       ),
     );
