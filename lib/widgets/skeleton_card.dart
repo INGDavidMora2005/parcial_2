@@ -9,21 +9,26 @@ class SkeletonCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Skeletonizer(
-      enabled: true,
-      child: Card(
-        margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-        child: ListTile(
-          leading: const CircleAvatar(child: Icon(Icons.business)),
-          title: const Text('Nombre del establecimiento'),
-          subtitle: const Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('NIT: 0000000000'),
-              Text('Dirección: Calle ejemplo 123'),
-            ],
-          ),
-          isThreeLine: true,
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      child: SizedBox(
+        height: height,
+        child: Skeletonizer(
+          enabled: true,
+          child: height != null
+              ? const SizedBox.expand()
+              : const ListTile(
+                  leading: CircleAvatar(child: Icon(Icons.business)),
+                  title: Text('Nombre del establecimiento'),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('NIT: 0000000000'),
+                      Text('Dirección: Calle ejemplo 123'),
+                    ],
+                  ),
+                  isThreeLine: true,
+                ),
         ),
       ),
     );
