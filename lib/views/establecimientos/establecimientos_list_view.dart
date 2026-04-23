@@ -16,9 +16,11 @@ class _EstablecimientosListViewState extends State<EstablecimientosListView> {
   Future<List<EstablecimientoModel>>? _establecimientosFuture;
 
   @override
-  void initState() {
-    super.initState();
-    _loadEstablecimientos();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    setState(() {
+      _loadEstablecimientos();
+    });
   }
 
   void _loadEstablecimientos() {
