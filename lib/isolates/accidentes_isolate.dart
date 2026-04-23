@@ -12,9 +12,17 @@ Map<String, dynamic> calcularEstadisticas(List<Map<String, dynamic>> rawList) {
     // claseAccidente
     final clase = item['clase_de_accidente'];
     if (clase != null) {
-      final normalized = ['Choque', 'Atropello', 'Volcamiento'].contains(clase)
-          ? clase
-          : 'Otros';
+      final claseNorm = clase.trim().toLowerCase();
+      final String normalized;
+      if (claseNorm == 'choque') {
+        normalized = 'Choque';
+      } else if (claseNorm == 'atropello') {
+        normalized = 'Atropello';
+      } else if (claseNorm == 'volcamiento') {
+        normalized = 'Volcamiento';
+      } else {
+        normalized = 'Otros';
+      }
       claseAccidente[normalized] = (claseAccidente[normalized] ?? 0) + 1;
     }
 
